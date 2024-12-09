@@ -1,0 +1,170 @@
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+
+//nhap mang hai chieu
+void nhap(int a[][100], int n){
+	for(int i = 0; i < n; i++){
+		for(int j = 0; j < n; j++){
+			printf("\na[%d][%d] = ", i, j);
+			scanf("%d",&a[i][j]);
+		}
+	}
+}
+
+//xuat mang hai chieu
+void xuat(int a[][100], int n){
+	for(int i = 0; i < n; i++){
+		for(int j = 0; j < n; j++){
+			printf("%d\t",a[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+//in phan tu lon nhat trong hang thu x
+int maxDong(int a[][100], int n, int x){
+	int max = a[x][0];
+	for(int i = 0; i < n; i++){
+		if(max < a[x][i]){
+			max = a[x][i];
+		}
+	}
+	return max;
+}
+
+//in phan tu nho nhat trong cot y
+int minCot(int a[][100], int n, int y){
+	int min = a[0][y];
+	for(int i = 0; i < n; i++){
+		if(min > a[i][y]){
+			min = a[i][y];
+		}
+	}
+	return min;
+}
+
+//in tong cac phan tu tren hang k
+int tongDong(int a[][100], int n, int k){
+	int tong = 0; 
+	for(int i = 0; i < n; i++){
+		tong += a[k][i];
+	}
+	return tong;
+}
+
+//in tong cac phan tu tren cot m
+int tongCot(int a[][100], int n, int m){
+	int tong = 0;
+	for(int i = 0; i < n; i++){
+		tong += a[i][m];
+	}
+	return tong;
+}
+
+//in ra tong cac phan tu co gia tri chan
+int tongChan(int a[][100], int n){
+	int tong  = 0;
+	for(int i = 0; i < n; i++){
+		for(int j = 0; j < n; j++){
+			if(a[i][j] % 2 == 0){
+				tong += a[i][j];
+			}
+		}
+	}
+	return tong;
+} 
+
+//ham kiem tra xem duong cheo chinh co bang 0 hay khong
+int KT_cheoChinh(int a[][100], int n){
+	for(int i = 0; i < n; i++){
+		if(a[i][i] != 0){
+			return 0;
+		}
+	}
+	return 1;
+}
+
+//ham kiem tra phan tu co nho hon hoac bang 1 hay khong
+int KT_phanTu(int a[][100], int n){
+	for(int i = 0; i < n; i++){
+		for(int j = 0; j < n; j++){
+			if(a[i][j] > 1){
+				return 0; //lon hon 1 thi sai, tra 0
+			}
+		}
+	}
+	return 1; //dung het thi tra 1
+}
+
+//kiem tra mang hai chieu co doi xung voi nhau hay khong
+int KT_doiXung(int a[][100], int n){
+	for(int i = 0; i < n; i++){
+		for(int j = 0; j < n; j++){
+			if(a[i][j] != a[j][i] ){
+				return 0;
+			}
+		}
+	}
+	return 1;
+}
+
+int main(){
+	int a[100][100];
+	int n;
+	printf("nhap ma tran vuong cap: ");
+	scanf("%d",&n);	
+	nhap(a,n);
+	xuat(a,n);
+	
+	//in phan tu lon nhat trong dong x
+	int x;
+	printf("\nnhap dong thu: ");
+	scanf("%d",&x);
+	printf("phan tu lon nhat trong dong %d la %d\n",x,maxDong(a,n,x));
+	
+	//in phan tu nho nhat trong cot y
+	int y;
+	printf("\nnhap cot thu: ");
+	scanf("%d",&y);
+	printf("phan tu nho nhat trong cot %d la %d\n",y,minCot(a,n,y));
+	
+	// in ra tong tren dong k
+	int k;
+	printf("\nnhap dong thu: ");
+	scanf("%d",&k);
+	printf("tong cac phan tu trong dong %d la %d\n",k,tongDong(a,n,k));
+	
+	//in ra tong tren cot m
+	int m;
+	printf("\nnhap cot thu: ");
+	scanf("%d",&m);
+	printf("tong cac phan tu trong cot %d la %d\n",k,tongCot(a,n,m));
+	
+	//in ra tong cac gia tri chan
+	printf("\ntong cac phan tu chan tren ma tran la %d", tongChan(a,n));
+	
+	//kiem tra duong cheo chinh
+	printf("\nkiem tra duong cheo chinh: ");
+	if(KT_cheoChinh(a,n)){
+		printf("duong cheo chinh bang 0");
+	}else{
+		printf("khong phai duong cheo chinh");
+	}
+	
+	//kiem tra cac phan tu co nho hon bang 1 hay khong
+	printf("\nkiem tra cac phan tu co nho hon 1: ");
+	if(KT_phanTu(a,n)){
+		printf("YES");
+	}else{
+		printf("No");
+	}
+	
+	//kiem tra doi xung
+	printf("\nkiem tra doi xung: ");
+	if(KT_doiXung(a,n)){
+		printf("DOI XUNG");
+	}else{
+		printf("KHONG DOI XUNG");
+	}
+}
