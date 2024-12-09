@@ -1,0 +1,125 @@
+#include <stdio.h>
+#define vocung 1000
+#define max 50
+int a[max][max], n, L[max], s, d[max],u,vt,f,truoc[10];
+
+void khoitao (int s){
+	for(int i=1; i<=n; i++){
+		L[i]=vocung;
+		d[i]=0;
+	}	
+	L[s]=0;	
+}
+
+
+
+void docFile(){
+	FILE *f;
+		f=fopen("mtk.txt","r");
+	if(f==NULL){
+		printf("Khong co tap tin\n");
+	}
+	else{
+		fscanf(f,"%d",&n);
+		for(int i=1;i<=n; i++){
+			for(int j=1; j<=n; j++){
+				fscanf(f,"%d",&a[i][j]);
+			}
+		}
+	}
+	fclose(f);
+}
+
+void inFile(){
+
+	for(int i=1; i<=n; i++){
+		for(int j=1;j<=n; j++){
+			printf("%d\t", a[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+int vtmin(){
+	int min=vocung;
+	int vt=0;
+	for(int i=1; i<=n;i++)
+		if(L[i]<min && d[i]==0){
+			min =L[i];
+			vt=i;
+		}
+		return vt;
+}
+
+int capnhat(int vt){
+	for(int i=1; i<=n; i++){
+		if(a[vt][i]!= 0&& d[i]==0)
+			if(L[i]>L[vt]+a[vt][i])
+			{
+				L[i]=L[vt]+a[vt][i];
+				truoc[i]=vt; 
+			}
+		
+	}
+}
+
+void dijstra() {
+	khoitao(s);
+	for(int j=1;j<=n;j++) {
+		vt=vtmin();
+		capnhat(vt);
+		d[vt]=1;
+		for (int i=1;i<=n;i++) {
+			printf("\t%d",L[i]);
+		}
+		printf("\n"); 
+	} 
+} 
+
+/*void timduong(int f) {
+	printf("Do dai DDNN tu dinh %d den dinh %d la: %d\n",s,f,L[f]); 
+	printf("%d ",f); 
+	while(truoc[f] != 0)
+	{
+		printf("%d ",truoc[f]);
+		f = truoc [f]; 
+	} 
+} */
+
+void timduong(int f) {
+    if (L[f] == vocung) {
+        printf("Khong co duong di tu dinh %d den dinh %d\n", s, f);
+        return;
+    }
+
+    printf("Do dai DDNN tu dinh %d den dinh %d la: %d\n", s, f, L[f]);
+
+    int duongdi[max], y = 0;
+    while (f != 0) {
+        duongdi[y++] = f; 
+        f = truoc[f];         
+    }
+    
+    printf("Duong di: ");
+    for (int i = y - 1; i >= 0; i--) {
+        printf("%d ", duongdi[i]);
+    }
+    printf("\n");
+}
+
+int main()
+{
+	docFile();
+	inFile();
+	
+	printf("Nhap dinh bat dau: ");
+	scanf("%d",&s);
+	
+	printf("Nhap dinh ket thuc: ");
+	scanf("%d",&f);
+	
+	
+	dijstra();
+	timduong(f); 
+	
+}
